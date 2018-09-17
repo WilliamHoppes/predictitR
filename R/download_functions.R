@@ -32,10 +32,14 @@ get_predictit<-function(category, subcategory="", agent="predictitR user, no mes
           add_headers("Accept:application/json"),
           user_agent(agent))
   df<-fromJSON(content(df, as="text"))
-  n_markets<-nrow(df[[1]])
-  output_df<-df[[1]][[7]][[1]]
-  for (i in 2:n_markets){
-    output_df<-rbind(output_df, df[[1]][[7]][[i]])
+  if(category=="ticker"){
+    return(as.data.frame(df))
+  }else {
+    n_markets<-nrow(df[[1]])
+    output_df<-df[[1]][[7]][[1]]
+    for (i in 2:n_markets){
+      output_df<-rbind(output_df, df[[1]][[7]][[i]])
+      }
+    return(output_df)
   }
-  return(output_df)
 }
